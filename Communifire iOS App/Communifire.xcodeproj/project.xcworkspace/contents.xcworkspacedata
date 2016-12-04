@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Communifire.xcodeproj">
+      location = "self:/Git Projects/iOS-Communifire-App/Communifire iOS App/Communifire.xcodeproj">
    </FileRef>
 </Workspace>

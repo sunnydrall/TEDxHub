@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Communifire iOS App-->
+        <!--TEDxHub iOS App-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Communifire iOS App" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController title="TEDxHub iOS App" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qqy-0N-Oxy">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qqy-0N-Oxy">
                                 <rect key="frame" x="150" y="175" width="300" height="250"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username or Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JK1-By-ojc">
-                                        <rect key="frame" x="25" y="130" width="250" height="30"/>
+                                        <rect key="frame" x="25" y="90" width="250" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="250" id="i2n-Hz-Rhy"/>
                                             <constraint firstAttribute="height" constant="30" id="kuI-MC-KcX"/>
@@ -50,7 +54,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="N99-lC-o85">
-                                        <rect key="frame" x="25" y="170" width="250" height="30"/>
+                                        <rect key="frame" x="25" y="130" width="250" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="250" id="guo-a9-drQ"/>
                                             <constraint firstAttribute="height" constant="30" id="vUO-Jy-t47"/>
@@ -86,7 +90,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7jc-yh-gDn" userLabel="Hello World">
-                                        <rect key="frame" x="112" y="210" width="77" height="33"/>
+                                        <rect key="frame" x="112" y="170" width="77" height="33"/>
                                         <accessibility key="accessibilityConfiguration" label=""/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="33" id="6Nh-za-jvs"/>
@@ -97,7 +101,7 @@
                                             <constraint firstAttribute="width" constant="77" id="ot2-Iq-oAu"/>
                                         </constraints>
                                         <state key="normal" title="Login">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <variation key="default">
                                             <mask key="constraints">
@@ -132,7 +136,7 @@
                                         <color key="color" cocoaTouchSystemColor="darkTextColor"/>
                                     </activityIndicatorView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.95686274510000002" green="0.94901960780000005" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.95686274510000002" green="0.94901960780000005" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="tKj-8L-FLe" firstAttribute="top" secondItem="TxX-Do-ldg" secondAttribute="bottom" constant="10" id="ANs-F4-dZc"/>
                                     <constraint firstAttribute="centerX" secondItem="TxX-Do-ldg" secondAttribute="centerX" id="AdM-jj-6aZ"/>
@@ -140,7 +144,7 @@
                                     <constraint firstItem="7jc-yh-gDn" firstAttribute="top" secondItem="N99-lC-o85" secondAttribute="bottom" constant="10" id="D48-dM-z0n"/>
                                     <constraint firstAttribute="width" constant="300" id="KY9-UU-zod"/>
                                     <constraint firstAttribute="centerX" secondItem="7jc-yh-gDn" secondAttribute="centerX" id="Lsi-VP-rtA"/>
-                                    <constraint firstItem="JK1-By-ojc" firstAttribute="top" secondItem="tKj-8L-FLe" secondAttribute="bottom" constant="10" id="NjX-Js-zLT"/>
+                                    <constraint firstItem="JK1-By-ojc" firstAttribute="top" secondItem="tKj-8L-FLe" secondAttribute="bottom" constant="-30" id="NjX-Js-zLT"/>
                                     <constraint firstAttribute="centerX" secondItem="JK1-By-ojc" secondAttribute="centerX" id="P5x-7T-qlj"/>
                                     <constraint firstItem="TxX-Do-ldg" firstAttribute="top" secondItem="vN7-qr-GsF" secondAttribute="bottom" constant="10" id="QRo-R8-3fi"/>
                                     <constraint firstAttribute="centerX" secondItem="tKj-8L-FLe" secondAttribute="centerX" id="Sdx-xl-r1j"/>
@@ -153,14 +157,13 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.95686274510000002" green="0.94901960780000005" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.95686274510000002" green="0.94901960780000005" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="qqy-0N-Oxy" secondAttribute="centerX" id="0WM-gY-fG0"/>
                             <constraint firstAttribute="centerY" secondItem="qqy-0N-Oxy" secondAttribute="centerY" id="Urq-ud-0Pb"/>
                         </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="activityIndicator" destination="er4-UZ-dH2" id="S9n-WC-q0X"/>
                         <outlet property="communityUrlText" destination="tKj-8L-FLe" id="1Mn-wC-CRl"/>
@@ -185,7 +188,7 @@
                         <viewControllerLayoutGuide type="bottom" id="pfj-SQ-fd2"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="49F-F9-vzD">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3UC-At-MSk">
@@ -217,7 +220,7 @@
                                 </items>
                             </toolbar>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="pfj-SQ-fd2" firstAttribute="top" secondItem="3UC-At-MSk" secondAttribute="bottom" id="5wP-uf-aRK"/>
                             <constraint firstItem="3UC-At-MSk" firstAttribute="leading" secondItem="49F-F9-vzD" secondAttribute="leadingMargin" constant="-15" id="Bai-IG-MAC"/>
@@ -240,6 +243,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Logo" width="250" height="250"/>
+        <image name="Logo" width="76" height="76"/>
     </resources>
 </document>

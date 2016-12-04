@@ -423,7 +423,7 @@
 				INFOPLIST_FILE = "Communifire iOS App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.axero.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.axero.Communifire;
 				PRODUCT_NAME = Communifire;
 				PROVISIONING_PROFILE = "";
 			};
@@ -440,7 +440,7 @@
 				INFOPLIST_FILE = "Communifire iOS App/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.axero.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.axero.Communifire;
 				PRODUCT_NAME = Communifire;
 				PROVISIONING_PROFILE = "";
 			};

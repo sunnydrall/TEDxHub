@@ -1,6 +1,6 @@
 //
 //  ViewController.m
-//  Communifire iOS App
+//  TEDxHub iOS App
 //
 //  Created by Vivek Thakur on 18/01/15.
 //  Copyright (c) 2015 Axero Solutions LLC. All rights reserved.
@@ -31,7 +31,8 @@
         // Show login screen view control
         self.passwordText.secureTextEntry= YES;
         // Fetch previously saved items
-        self.communityUrlText.text= [Utils getCommuntityURL];
+        [self.communityUrlText setHidden:TRUE];
+        self.communityUrlText.text= @"http://tedxhub.ted.com";
         self.usernameEmailText.text= [Utils getUsername];
     }
     else
