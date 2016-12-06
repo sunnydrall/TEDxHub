@@ -60,5 +60,5 @@
 +(BOOL)isStatusBarHidden;
 +(CGFloat)getStatusBarHeight;
 +(void)setWebViewDimensions: (WKWebView *)webView: (UIView *) parentView: (UIToolbar *) toolbar;
-
++(void)deleteAllCookies;
 @end

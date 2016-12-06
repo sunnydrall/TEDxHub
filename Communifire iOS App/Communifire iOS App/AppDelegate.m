@@ -118,6 +118,9 @@
         }
     }
     
+    // Load Cookies
+    [self loadHTTPCookies];
+    
     // Override point for customization after application launch.
     return YES;
 }
@@ -130,14 +133,17 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [self saveHTTPCookies];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [self loadHTTPCookies];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [self saveHTTPCookies];
 }
 
 // GET LATEST NOTIFICATIONS AND MESSAGES
@@ -147,6 +153,40 @@
     
     //Tell the system that you are done.
     completionHandler(UIBackgroundFetchResultNewData);
+}
+
+-(void)loadHTTPCookies
+{
+    NSMutableArray* cookieDictionary = [[NSUserDefaults standardUserDefaults] valueForKey:@"cookieArray"];
+    
+    for (int i=0; i < cookieDictionary.count; i++)
+    {
+        NSMutableDictionary* cookieDictionary1 = [[NSUserDefaults standardUserDefaults] valueForKey:[cookieDictionary objectAtIndex:i]];
+        NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:cookieDictionary1];
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+    }
+}
+
+-(void)saveHTTPCookies
+{
+    NSMutableArray *cookieArray = [[NSMutableArray alloc] init];
+    for (NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
+        [cookieArray addObject:cookie.name];
+        NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
+        [cookieProperties setObject:cookie.name forKey:NSHTTPCookieName];
+        [cookieProperties setObject:cookie.value forKey:NSHTTPCookieValue];
+        [cookieProperties setObject:cookie.domain forKey:NSHTTPCookieDomain];
+        [cookieProperties setObject:cookie.path forKey:NSHTTPCookiePath];
+        [cookieProperties setObject:[NSNumber numberWithUnsignedInteger:cookie.version] forKey:NSHTTPCookieVersion];
+        [cookieProperties setObject:[[NSDate date] dateByAddingTimeInterval:2629743] forKey:NSHTTPCookieExpires];
+        
+        [[NSUserDefaults standardUserDefaults] setValue:cookieProperties forKey:cookie.name];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setValue:cookieArray forKey:@"cookieArray"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end

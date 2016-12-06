@@ -245,9 +245,13 @@
 
 +(void)logout: (id)instance {
     
+    [self deleteAllCookies];
+    
     [self logoutWithoutRedirect];
     
     [Utils loadLoginViewController:instance];
+    
+
     
 }
 
@@ -327,13 +331,6 @@
 +(NSURLRequest *)getNSURLRequest:(NSURL *) url
 {
     NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-    return urlRequest;
-}
-
-
-+(NSURLRequest *)getLoginURLRequestForWebView
-{
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[Utils getSecuredLoginURL]];
     return urlRequest;
 }
 
@@ -648,6 +645,22 @@
     else{
         webView.frame = CGRectMake(0, 0, parentView.frame.size.width, parentView.frame.size.height-toolbar.frame.size.height);
     }
+}
+
++(void)deleteAllCookies {
+    
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (NSHTTPCookie *cookie in [storage cookies]) {
+        [storage deleteCookie:cookie];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++(NSURLRequest *)getLoginURLRequestForWebView
+{
+    // Redirect to Myaccount for default url
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[Utils getNSURL: @"/myaccount"]];
+    return urlRequest;
 }
 
 

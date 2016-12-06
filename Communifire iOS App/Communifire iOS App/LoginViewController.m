@@ -24,31 +24,40 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     
+    NSString* defaultCommunity = @"tedxhub.ted.com";
     
-    if (![Utils isUserLoggedIn])
-    {
-        [self.loginViewParent setHidden:FALSE];
-        // Show login screen view control
-        self.passwordText.secureTextEntry= YES;
-        // Fetch previously saved items
-        [self.communityUrlText setHidden:TRUE];
-        self.communityUrlText.text= @"http://tedxhub.ted.com";
-        self.usernameEmailText.text= [Utils getUsername];
-    }
-    else
-    {
-        if(self.urlToOpen!=nil)
-        {
-            [self.loginViewParent setHidden:TRUE];
-            CFUIWebViewController *vc1 = [Utils getWebViewController];
-            vc1.urlToOpen=self.urlToOpen;
-            [self presentViewController:vc1 animated:NO completion:nil];
-        }
-        {
-            [self.loginViewParent setHidden:TRUE];
-            [Utils loadWebViewController:self];
-        }
-    }
+    // Set domain name
+    CFSettings *cfSettings = [[CFSettings alloc] init];
+    cfSettings.CFCommunityUrl = [Utils makeUrlFromDomain:defaultCommunity];
+    [Utils setCFSettings:cfSettings];
+    
+    [self.loginViewParent setHidden:TRUE];
+    [Utils loadWebViewController:self];
+    
+//    if (![Utils isUserLoggedIn])
+//    {
+//        [self.loginViewParent setHidden:FALSE];
+//        // Show login screen view control
+//        self.passwordText.secureTextEntry= YES;
+//        // Fetch previously saved items
+//        [self.communityUrlText setHidden:TRUE];
+//        self.communityUrlText.text= @"http://tedxhub.ted.com";
+//        self.usernameEmailText.text= [Utils getUsername];
+//    }
+//    else
+//    {
+//        if(self.urlToOpen!=nil)
+//        {
+//            [self.loginViewParent setHidden:TRUE];
+//            CFUIWebViewController *vc1 = [Utils getWebViewController];
+//            vc1.urlToOpen=self.urlToOpen;
+//            [self presentViewController:vc1 animated:NO completion:nil];
+//        }
+//        {
+//            [self.loginViewParent setHidden:TRUE];
+//            [Utils loadWebViewController:self];
+//        }
+//    }
     
     
 }
