@@ -10,6 +10,8 @@
 		A05ED85E1A93AA81000427DE /* CFNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = A05ED85D1A93AA81000427DE /* CFNotification.m */; };
 		A0E3776E1A91D4480083F7D2 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = A0E3776D1A91D4480083F7D2 /* Utils.m */; };
 		A0E377711A932BA80083F7D2 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A0E377701A932BA80083F7D2 /* SystemConfiguration.framework */; };
+		A48DE2771DF87A4A002B4CE5 /* CFSettingsUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A48DE2761DF87A4A002B4CE5 /* CFSettingsUtils.m */; };
+		A48DE27A1DF881F7002B4CE5 /* URLConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A48DE2791DF881F7002B4CE5 /* URLConstants.m */; };
 		E27DBAB21A6BEE0600E1C630 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E27DBAB11A6BEE0600E1C630 /* main.m */; };
 		E27DBAB51A6BEE0600E1C630 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E27DBAB41A6BEE0600E1C630 /* AppDelegate.m */; };
 		E27DBAB81A6BEE0600E1C630 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E27DBAB71A6BEE0600E1C630 /* LoginViewController.m */; };
@@ -43,6 +45,10 @@
 		A0E3776D1A91D4480083F7D2 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		A0E377701A932BA80083F7D2 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		A320A0961DF29F6F0070B253 /* Communifire.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Communifire.entitlements; sourceTree = "<group>"; };
+		A48DE2751DF87A21002B4CE5 /* CFSettingsUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CFSettingsUtils.h; sourceTree = "<group>"; };
+		A48DE2761DF87A4A002B4CE5 /* CFSettingsUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CFSettingsUtils.m; sourceTree = "<group>"; };
+		A48DE2781DF881C5002B4CE5 /* URLConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLConstants.h; sourceTree = "<group>"; };
+		A48DE2791DF881F7002B4CE5 /* URLConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLConstants.m; sourceTree = "<group>"; };
 		E27DBAAC1A6BEE0600E1C630 /* Communifire.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Communifire.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E27DBAB01A6BEE0600E1C630 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E27DBAB11A6BEE0600E1C630 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -140,6 +146,10 @@
 				E290224F1A72861500B94AD3 /* CFSettings.m */,
 				A05ED85F1A93AA99000427DE /* CFNotification.h */,
 				A05ED85D1A93AA81000427DE /* CFNotification.m */,
+				A48DE2751DF87A21002B4CE5 /* CFSettingsUtils.h */,
+				A48DE2761DF87A4A002B4CE5 /* CFSettingsUtils.m */,
+				A48DE2781DF881C5002B4CE5 /* URLConstants.h */,
+				A48DE2791DF881F7002B4CE5 /* URLConstants.m */,
 			);
 			path = "Communifire iOS App";
 			sourceTree = "<group>";
@@ -227,6 +237,9 @@
 							com.apple.Keychain = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 					E27DBAC41A6BEE0600E1C630 = {
@@ -284,11 +297,13 @@
 				E29022491A719E7E00B94AD3 /* UIView+Toast.m in Sources */,
 				E27DBAB81A6BEE0600E1C630 /* LoginViewController.m in Sources */,
 				E29022411A71971100B94AD3 /* SSKeychainQuery.m in Sources */,
+				A48DE27A1DF881F7002B4CE5 /* URLConstants.m in Sources */,
 				E29022401A71971100B94AD3 /* SSKeychain.m in Sources */,
 				E29022501A72861500B94AD3 /* CFSettings.m in Sources */,
 				E27DBAB51A6BEE0600E1C630 /* AppDelegate.m in Sources */,
 				E2BB48F51A777B6400D6006B /* CFUIWebViewController.m in Sources */,
 				E27DBAB21A6BEE0600E1C630 /* main.m in Sources */,
+				A48DE2771DF87A4A002B4CE5 /* CFSettingsUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,9 +436,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Communifire iOS App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.axero.Communifire;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tedx.axero.communifire;
 				PRODUCT_NAME = Communifire;
 				PROVISIONING_PROFILE = "";
 			};
@@ -438,9 +453,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Communifire iOS App/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.axero.Communifire;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tedx.axero.communifire;
 				PRODUCT_NAME = Communifire;
 				PROVISIONING_PROFILE = "";
 			};

@@ -12,6 +12,7 @@
 #import "UIKit/UIKit.h"
 #import "LoginViewController.h"
 #import "CFUIWebViewController.h"
+#import "URLConstants.h"
 
 @interface Utils : NSObject
 {
@@ -20,7 +21,6 @@
 +(NSURLRequest *)getNSURLRequest:(NSURL *) url;
 +(NSURL*) getNSURL: (NSString*) url;
 + (void)addDeviceToken;
-+(BOOL)isUserLoggedIn;
 +(CFSettings*) getCFSettings;
 +(void) setCFSettings: (CFSettings*) cfSettings;
 +(NSURL*) getRestAPIKeyURL: (CFSettings*) cfSettings;
@@ -54,11 +54,13 @@
 +(NSString *)getLastNotificationID;
 +(void)setLastNotificationID: (NSString *) lastNotificationID;
 +(void)setLastNotificationIDByNotification: (CFNotification *) notification;
-+(NSString *)getDeviceToken;
-+(void)setDeviceToken: (NSString *) deviceToken;
 +(BOOL)isLogoutUrl: (NSString *) str;
 +(BOOL)isStatusBarHidden;
 +(CGFloat)getStatusBarHeight;
 +(void)setWebViewDimensions: (WKWebView *)webView: (UIView *) parentView: (UIToolbar *) toolbar;
 +(void)deleteAllCookies;
++(BOOL) isUserLoggedInOnServer;
++(void)loadHTTPCookies;
++(void)saveHTTPCookies;
+
 @end

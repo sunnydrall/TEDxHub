@@ -21,5 +21,6 @@
 @property (nonatomic, strong) NSString *CFLastNotificationID;
 @property (nonatomic, strong) NSString *CFLastMessageID;
 @property (nonatomic, strong) NSString *DeviceToken;
+@property (nonatomic, assign) BOOL IsDeviceTokenSentToServer;
 
 @end

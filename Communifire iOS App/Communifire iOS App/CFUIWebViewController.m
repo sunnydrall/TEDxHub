@@ -10,6 +10,7 @@
 #import "SSKeychain.h"
 #import "LoginViewController.h"
 #import "Utils.h"
+#import "CFSettingsUtils.h"
 #import "UIView+Toast.h"
 #import <WebKit/WebKit.h>
 
@@ -25,42 +26,13 @@ WKWebView *webView;
 
 @implementation CFUIWebViewController
 
-- (void)updateButtons
-{
-    self.forwardButton.enabled = webView.canGoForward;
-    self.backButton.enabled = webView.canGoBack;
-    self.stopButton.enabled = webView.loading;
+- (void)viewWillAppear:(BOOL)animated {
+    activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    //Put the indicator on the center of the webview
+    [activityIndicator setCenter:self.view.center];
+    [self.view addSubview:activityIndicator];
+    [self.view addSubview:self.navigateToolBar];
 }
-
-- (void) receivePushNotification:(NSNotification *) notif {
-    
-    if (![Utils isUserLoggedIn])
-    {
-        [Utils loadLoginViewController:self];
-        return;
-    }
-    
-    NSDictionary *userInfo=notif.userInfo;
-    
-    NSString *url=[userInfo valueForKey:@"url"];
-    NSString *str = [NSString stringWithFormat: @"%@%@", [Utils getCommuntityURL],url];
-    NSURL *siteURL = [NSURL URLWithString:str];
-    
-    
-    // Show webView control
-    [webView setHidden:false];
-    [activityIndicator setHidesWhenStopped:YES];
-    [Utils showActivityIndicator: activityIndicator];
-    [webView loadRequest:[Utils getNSURLRequest:siteURL]];
-    //[self.cfUIWebView reload];
-}
-
-
--(void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-}
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -89,30 +61,13 @@ WKWebView *webView;
     [self loadCFCommunityWebsite];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    //Put the indicator on the center of the webview
-    [activityIndicator setCenter:self.view.center];
-    [self.view addSubview:activityIndicator];
-    [self.view addSubview:self.navigateToolBar];
-}
-
-- (void)viewDidLayoutSubviews {
-    [Utils setWebViewDimensions:webView : self.view: self.navigateToolBar];
-    [activityIndicator setCenter:self.view.center];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 // Load CF Web view
 -(void) loadCFCommunityWebsite
 {
     // Show webView control
     [webView setHidden:FALSE];
     
+  
     if(self.urlToOpen!=nil) {
         // When the app is opened via notification.
         // We need to show the page for which the notification is
@@ -136,6 +91,9 @@ WKWebView *webView;
     
     [Utils hideActivityIndicator: activityIndicator];
     [self updateButtons];
+    
+    // Check if the device token is sent to server for logged in user
+    [CFSettingsUtils checkDeviceTokenStatus];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
@@ -171,7 +129,54 @@ WKWebView *webView;
     [Utils hideActivityIndicator: activityIndicator];
     [self updateButtons];
 }
+- (void) receivePushNotification:(NSNotification *) notif {
+    
+//    if (![CFSettingsUtils isUserLoggedIn])
+//    {
+//        //[Utils loadLoginViewController:self];
+//        return;
+//    }
+    
+    // Set default domain name
+    [CFSettingsUtils setCommunityNameByDomain: DEFAULT_DOMAIN];
+    
+    NSDictionary *userInfo=notif.userInfo;
+    
+    NSString *url=[userInfo valueForKey:@"url"];
+    NSString *str = [NSString stringWithFormat: @"%@%@", [Utils getCommuntityURL],url];
+    NSURL *siteURL = [NSURL URLWithString:str];
+    
+    
+    // Show webView control
+    [webView setHidden:false];
+    [activityIndicator setHidesWhenStopped:YES];
+    [Utils showActivityIndicator: activityIndicator];
+    [webView loadRequest:[Utils getNSURLRequest:siteURL]];
+    //[self.cfUIWebView reload];
+}
 
+
+- (void)viewDidLayoutSubviews {
+    [Utils setWebViewDimensions:webView : self.view: self.navigateToolBar];
+    [activityIndicator setCenter:self.view.center];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)updateButtons
+{
+    self.forwardButton.enabled = webView.canGoForward;
+    self.backButton.enabled = webView.canGoBack;
+    self.stopButton.enabled = webView.loading;
+}
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+}
 - (IBAction)goBack:(id)sender {
     [webView goBack];
 }

@@ -7,20 +7,18 @@
 //
 
 #import "Utils.h"
+#import "CFSettingsUtils.h"
 #import "CFSettings.h"
 #import "CFNotification.h"
 #import "SSKeychain.h"
 #import "UIKit/UIKit.h"
 #import "LoginViewController.h"
 #import "CFUIWebViewController.h"
+#import "URLConstants.h"
 #import <SystemConfiguration/SCNetworkReachability.h>
 
 @implementation Utils
 
-+(BOOL)isUserLoggedIn{
-    CFSettings *cfSettings= [Utils getCFSettings];
-    return !([cfSettings.CFApiKey length] == 0);
-}
 
 +(CFSettings*) getCFSettings {
     
@@ -34,7 +32,7 @@
     cfSettings.CFApiKey = [userDefaults stringForKey:@"CFAPIKEY"];
     cfSettings.CFLastMessageID = [userDefaults stringForKey:@"LastMessageID"];
     cfSettings.CFLastNotificationID = [userDefaults stringForKey:@"LastNotificationID"];
-    
+    cfSettings.IsDeviceTokenSentToServer = [userDefaults boolForKey:@"IsDeviceTokenSentToServer"];
     return cfSettings;
 }
 
@@ -47,6 +45,7 @@
     [[NSUserDefaults standardUserDefaults] setValue:cfSettings.CFLastNotificationID forKey:@"LastNotificationID"];
     [[NSUserDefaults standardUserDefaults] setValue:cfSettings.CFLastMessageID forKey:@"LastMessageID"];
     [[NSUserDefaults standardUserDefaults] setValue:cfSettings.CFApiKey forKey:@"CFAPIKEY"];
+    [[NSUserDefaults standardUserDefaults] setBool:cfSettings.IsDeviceTokenSentToServer forKey:@"IsDeviceTokenSentToServer"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -60,7 +59,7 @@
 
 +(NSURL*) getAddDeviceTokenURL{
     
-    NSString *restUrlString = [NSString stringWithFormat:@"%@/services/userservice.svc/users/tokens?isActive=true&deviceToken=%@&deviceType=1&token=%@",[Utils getCommuntityURL],[Utils getDeviceToken],[Utils getApiKey]];
+    NSString *restUrlString = [NSString stringWithFormat:@"%@/services/userservice.svc/users/tokens?isActive=true&deviceToken=%@&deviceType=1&token=%@",[Utils getCommuntityURL],[CFSettingsUtils getDeviceToken],[Utils getApiKey]];
     
     NSURL *restUrl = [NSURL URLWithString:restUrlString];
     return restUrl;
@@ -245,6 +244,8 @@
 
 +(void)logout: (id)instance {
     
+//    [CFSettingsUtils setDeviceTokenSentToServer:NO];
+    
     [self deleteAllCookies];
     
     [self logoutWithoutRedirect];
@@ -272,18 +273,6 @@
     return lastNotificationID;
 }
 
-+(void)setDeviceToken: (NSString *) deviceToken{
-    
-    [[NSUserDefaults standardUserDefaults] setValue: deviceToken forKey:@"DeviceToken"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-+(NSString *)getDeviceToken {
-    //return @"0";
-    NSUserDefaults *userDefaults = [Utils getUserDefaults];
-    NSString *deviceToken = [userDefaults stringForKey:@"DeviceToken"];
-    return deviceToken;
-}
 
 +(void)setLastNotificationID: (NSString *) lastNotificationID{
     
@@ -419,7 +408,7 @@
 //    [[UIApplication sharedApplication] scheduleLocalNotification: n1];
 //    [[UIApplication sharedApplication] scheduleLocalNotification: n2];
 //    [[UIApplication sharedApplication] scheduleLocalNotification: n3];
-    if ([Utils isUserLoggedIn])
+    if ([CFSettingsUtils isUserLoggedIn])
     {
         NSURL *restUrl = [Utils getNotificationsURL];
         
@@ -659,10 +648,96 @@
 +(NSURLRequest *)getLoginURLRequestForWebView
 {
     // Redirect to Myaccount for default url
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[Utils getNSURL: @"/myaccount"]];
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:[Utils getNSURL: MYACCOUNT_URL]];
     return urlRequest;
 }
 
++(BOOL) isUserLoggedInOnServer {
+    __block BOOL isUserLoggedInOnServer = false;
+    @try {
+        
+        NSURL *restUrl = [Utils getNSURL: GET_ME_API_URL];
+        NSURLRequest *request = [NSMutableURLRequest requestWithURL:restUrl cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
+        NSError *connectionError = nil;
+        NSHTTPURLResponse *responseCode = nil;
+        
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&connectionError];
+        
+        
+        NSInteger statusCodeResponse = responseCode.statusCode;
+        
+        NSString *strError = [NSString stringWithFormat:@"%@", [connectionError description]];
+        if ([strError rangeOfString:@"Code=-1012"].location != NSNotFound) {
+            statusCodeResponse = 401;
+        }
+        if (connectionError.code == kCFURLErrorUserCancelledAuthentication) {
+            statusCodeResponse = 401;
+        }
+        
+        if (responseData != nil)
+        {
+            NSDictionary *returnValue = [NSJSONSerialization JSONObjectWithData:responseData
+                                                                        options:0
+                                                                          error:NULL];
+            if (returnValue != nil)
+            {
+                isUserLoggedInOnServer = true;
+            }
+            else{
+            }
+        }
+        else
+        {
+            NSLog(@"Exception: %@",@"Response Data empty");
+        }
+        return isUserLoggedInOnServer;
+        
+    }
+    @catch (NSException *exception)
+    {
+        //<#Handle an exception thrown in the @try block#>
+        NSLog(@"Exception: %@", exception);
+        
+    }
+    @finally
+    {
+        
+    }
+    
+}
 
 
++(void)loadHTTPCookies
+{
+    NSMutableArray* cookieDictionary = [[NSUserDefaults standardUserDefaults] valueForKey:@"cookieArray"];
+    
+    for (int i=0; i < cookieDictionary.count; i++)
+    {
+        NSMutableDictionary* cookieDictionary1 = [[NSUserDefaults standardUserDefaults] valueForKey:[cookieDictionary objectAtIndex:i]];
+        NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:cookieDictionary1];
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+    }
+}
+
++(void)saveHTTPCookies
+{
+    NSMutableArray *cookieArray = [[NSMutableArray alloc] init];
+    for (NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
+        [cookieArray addObject:cookie.name];
+        NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
+        [cookieProperties setObject:cookie.name forKey:NSHTTPCookieName];
+        [cookieProperties setObject:cookie.value forKey:NSHTTPCookieValue];
+        [cookieProperties setObject:cookie.domain forKey:NSHTTPCookieDomain];
+        [cookieProperties setObject:cookie.path forKey:NSHTTPCookiePath];
+        [cookieProperties setObject:[NSNumber numberWithUnsignedInteger:cookie.version] forKey:NSHTTPCookieVersion];
+        [cookieProperties setObject:[[NSDate date] dateByAddingTimeInterval:2629743] forKey:NSHTTPCookieExpires];
+        
+        [[NSUserDefaults standardUserDefaults] setValue:cookieProperties forKey:cookie.name];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setValue:cookieArray forKey:@"cookieArray"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 @end
