@@ -249,7 +249,7 @@
     
     [self logoutWithoutRedirect];
     
-    [Utils loadLoginViewController:instance];
+    //[Utils loadLoginViewController:instance];
     
 
     
