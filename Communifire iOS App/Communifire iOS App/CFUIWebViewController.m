@@ -50,7 +50,6 @@ WKWebView *webView;
     [webView addObserver:self forKeyPath:@"loading" options:NSKeyValueObservingOptionNew context:nil];
     
     
-    
     if(![Utils isNetworkAvailable])
     {
         [self.view makeToast:[Utils getLoginStatusMessage:InternetConnectionMissing] duration:5.0
@@ -136,9 +135,6 @@ WKWebView *webView;
 //        //[Utils loadLoginViewController:self];
 //        return;
 //    }
-    
-    // Set default domain name
-    [CFSettingsUtils setCommunityNameByDomain: DEFAULT_DOMAIN];
     
     NSDictionary *userInfo=notif.userInfo;
     
