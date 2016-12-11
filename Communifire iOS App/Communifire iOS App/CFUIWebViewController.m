@@ -32,6 +32,7 @@ WKWebView *webView;
     [activityIndicator setCenter:self.view.center];
     [self.view addSubview:activityIndicator];
     [self.view addSubview:self.navigateToolBar];
+    [activityIndicator startAnimating];
 }
 
 - (void)viewDidLoad {
@@ -89,6 +90,7 @@ WKWebView *webView;
     NSLog(@"didFinishNavigation");
     
     [Utils hideActivityIndicator: activityIndicator];
+    [activityIndicator stopAnimating];
     [self updateButtons];
     
     // Check if the device token is sent to server for logged in user
@@ -126,6 +128,7 @@ WKWebView *webView;
 
 -(void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error{
     [Utils hideActivityIndicator: activityIndicator];
+    [activityIndicator stopAnimating];
     [self updateButtons];
 }
 - (void) receivePushNotification:(NSNotification *) notif {
